@@ -1,0 +1,60 @@
+<!-- app_Disney/templates/productos/actualizar_productos.html -->
+{% extends 'app_Disney/base.html' %}
+
+
+{% block title %}Actualizar Producto - DisneyStore{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4 text-center">Actualizar Producto: {{ producto.nombre }}</h2>
+    <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre del Producto:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="{{ producto.nombre }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="categoria" class="form-label">Categoría:</label>
+                    <input type="text" class="form-control" id="categoria" name="categoria" value="{{ producto.categoria }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción:</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required>{{ producto.descripcion }}</textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="precio" class="form-label">Precio:</label>
+                        <input type="number" step="0.01" class="form-control" id="precio" name="precio" value="{{ producto.precio }}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="stock" class="form-label">Stock:</label>
+                        <input type="number" class="form-control" id="stock" name="stock" value="{{ producto.stock }}" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="fecha_lanzamiento" class="form-label">Fecha de Lanzamiento:</label>
+                    <input type="date" class="form-control" id="fecha_lanzamiento" name="fecha_lanzamiento" value="{{ producto.fecha_lanzamiento|date:'Y-m-d' }}">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="en_promocion" name="en_promocion" {% if producto.en_promocion %}checked{% endif %}>
+                    <label class="form-check-label" for="en_promocion">En Promoción</label>
+                </div>
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Imagen Actual:</label>
+                    {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="img-thumbnail mb-2" style="max-width: 150px;">
+                    {% else %}
+                        <p>No hay imagen actual.</p>
+                    {% endif %}
+                    <label for="imagen" class="form-label">Cambiar Imagen:</label>
+                    <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Guardar Cambios</button>
+                <a href="{% url 'ver_productos' %}" class="btn btn-secondary w-100 mt-2">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

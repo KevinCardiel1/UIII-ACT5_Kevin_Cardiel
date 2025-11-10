@@ -1,0 +1,25 @@
+<!-- app_Disney/templates/productos/borrar_productos.html -->
+{% extends 'app_Disney/base.html' %}
+
+
+{% block title %}Borrar Producto - DisneyStore{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4 text-center">Confirmar Borrado de Producto</h2>
+    <div class="card border-danger shadow-sm mx-auto" style="max-width: 500px;">
+        <div class="card-header bg-danger text-white">
+            Advertencia
+        </div>
+        <div class="card-body">
+            <p class="card-text">¿Estás seguro de que deseas eliminar el producto **"{{ producto.nombre }}"**?</p>
+            <p class="card-text text-danger"><i class="fas fa-exclamation-triangle me-2"></i>Esta acción no se puede deshacer.</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger w-100 mb-2">Sí, Eliminar</button>
+                <a href="{% url 'ver_productos' %}" class="btn btn-secondary w-100">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

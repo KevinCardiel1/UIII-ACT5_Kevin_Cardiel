@@ -1,0 +1,60 @@
+<!-- app_Disney/templates/pedidos/agregar_pedido.html -->
+{% extends 'app_Disney/base.html' %}
+
+
+{% block title %}Agregar Pedido - DisneyStore{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4 text-center">Agregar Nuevo Pedido</h2>
+    <div class="card shadow-sm mx-auto" style="max-width: 700px;">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="cliente" class="form-label">Cliente:</label>
+                    <select class="form-select" id="cliente" name="cliente" required>
+                        <option value="">Seleccione un cliente</option>
+                        {% for cliente in clientes %}
+                            <option value="{{ cliente.pk }}">{{ cliente.nombre }} {{ cliente.apellido }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="productos" class="form-label">Productos (Selección Múltiple):</label>
+                    <select class="form-select" id="productos" name="productos" multiple size="5" required>
+                        {% for producto in productos %}
+                            <option value="{{ producto.pk }}">{{ producto.nombre }} - ${{ producto.precio }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="form-text">Mantenga Ctrl (o Cmd) para seleccionar múltiples productos.</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="estado" class="form-label">Estado:</label>
+                        <select class="form-select" id="estado" name="estado">
+                            {% for value, label in estados %}
+                                <option value="{{ value }}" {% if value == 'Pendiente' %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="total" class="form-label">Total del Pedido:</label>
+                        <input type="number" step="0.01" class="form-control" id="total" name="total" value="0.00" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="metodo_pago" class="form-label">Método de Pago:</label>
+                    <input type="text" class="form-control" id="metodo_pago" name="metodo_pago">
+                </div>
+                <div class="mb-3">
+                    <label for="direccion_envio" class="form-label">Dirección de Envío:</label>
+                    <input type="text" class="form-control" id="direccion_envio" name="direccion_envio">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Crear Pedido</button>
+                <a href="{% url 'ver_pedidos' %}" class="btn btn-secondary w-100 mt-2">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
